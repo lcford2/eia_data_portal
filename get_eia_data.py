@@ -97,11 +97,12 @@ class EIAgov(object):
         with open("series_records.json", "w") as records_file:
             json.dump(records, records_file)
 
+        # grab the units
+        unit = data['series'][0]['units']
         # intermediate data containers
         date = []
-        data = []
+        data_series = []
         units = []
-        unit = date_['series'][0]['units']
         #* This is the most janky part of the entire program.
         #* I am trying to parse the dates provided by EIA, but it may not work. 
         for date_item, data_item in date_series:
@@ -124,7 +125,7 @@ class EIAgov(object):
                     dt = datetime.datetime.strptime(string, fmt)
                     dt_str = dt.strftime("%Y-%m-%d %H:%M")
                     date.append(dt_str)
-                    data.append(data_item)
+                    data_series.append(data_item)
                     units.append(unit)
                     break
                 except ValueError as e:
@@ -133,7 +134,7 @@ class EIAgov(object):
                     pass
         
         # create a dataframe of the results
-        df = pd.DataFrame(data=[date, data, units]).transpose()
+        df = pd.DataFrame(data=[date, data_series, units]).transpose()
         df.columns = ['Date', 'Data', 'Units']
 
         return df
