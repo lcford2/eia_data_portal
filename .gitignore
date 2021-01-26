@@ -7,3 +7,4 @@
 !*.gitignore
 !series_records.json
 !README.md
+!environment.yml
