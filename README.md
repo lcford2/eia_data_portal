@@ -18,7 +18,7 @@ After that, you can browse the `series_records.json` file for a data series you 
 Additionally, you can just run the `get_regional_gen.py` script (e.g `$ python get_regional_gen.py`) to pull generation information from various regions across the US, split up by generation type.
 
 ## Python Help
-This project is built only using Python 3.8 and a few Python libraries. It's external dependencies are:
+This project is built using Python 3.8 and a few Python libraries. It's external dependencies are:
 - numpy
 - pandas
 - dateutil
