@@ -159,6 +159,6 @@ if __name__ == '__main__':
 
     data = EIAgov(api_key, series_id)
     print('Getting data for: ', series_id)
-    df = data.GetData()
+    df = data.get_formatted_data()
     print('Writing data to file: ', series_id + '.csv')
     df.to_csv(series_id + '.csv')
