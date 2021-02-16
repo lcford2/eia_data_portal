@@ -71,5 +71,5 @@ for region, key in regions.items():
                 regional_df = regional_df.join(data)
 
     regional_df = regional_df.reset_index()
-    # write the dataframe to a json file
-    regional_df.to_json(output_path / f"{key}_gen.json")
+    # write the dataframe to a csv file
+    regional_df.to_csv(output_path / f"{key}_gen.csv")
