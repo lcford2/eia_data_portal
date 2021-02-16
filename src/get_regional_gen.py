@@ -32,8 +32,20 @@ regions = {
 # Second format slot is for generation type
 # HL is hourly
 base_id = "EBA.{}-ALL.NG.{}.HL"
-with open('./api_key.txt', 'r') as key_file:
-    api_key = key_file.read().strip("\n\r")
+# get your api key
+key_file = pathlib.Path("../api_key.txt")
+if key_file.exists():
+    if key_file.is_dir():
+        print(f"{key_file.as_posix()} is a directory, not a file.")
+        print("Refer to the README.md for how to setup this file.")
+        sys.exit()
+    else:
+        with open(key_file, "r") as key_file:
+            api_key = key_file.read().strip("\n\r")
+else:
+    print(f"{key_file.as_posix()} does not exist.")
+    print("Refer to the README.md for how to setup this file.")
+    sys.exit()
 
 # where to store the data
 output_path = pathlib.Path("../output/regional_generation")

@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 from dateutil import parser
 import datetime
+import pathlib
 from urllib.error import URLError, HTTPError
 from urllib.request import urlopen
 
@@ -62,6 +63,8 @@ class EIAgov(object):
         """
         if not ser:
             ser = self.series
+        else:
+            self.series = ser
         raw_data = self.get_raw_data(ser)
         formatted = self.format_data(raw_data)
         return formatted
@@ -84,8 +87,15 @@ class EIAgov(object):
             return pd.DataFrame()
         
         # record information about the retrieved data series
-        with open("series_records.json", "r") as records_file:
-            records = json.load(records_file)
+        records_file = pathlib.Path("../output/series_records.json")
+        if records_file.exists():
+            with open(records_file, "r") as f:
+                try:
+                    records = json.load(f)
+                except json.decoder.JSONDecodeError as e:
+                    records = {}
+        else:
+            records = {}
         
         records[data["series"][0]["series_id"]] = {
             "name":data["series"][0]["name"],
@@ -94,8 +104,8 @@ class EIAgov(object):
             "end":data["series"][0]["end"]
         }
 
-        with open("series_records.json", "w") as records_file:
-            json.dump(records, records_file)
+        with open(records_file, "w") as f:
+            json.dump(records, f, sort_keys=True, indent=4)
 
         # grab the units
         unit = data["series"][0]["units"]
@@ -153,9 +163,20 @@ if __name__ == "__main__":
         sys.exit()
 
     # grab the api-key, this needs to be populated with your api_key
-    # can find more information here https://www.eia.gov/opendata/qb.php.    
-    with open("./api_key.txt", "r") as key_file:
-        api_key = key_file.read().strip("\n\r")
+    # can find more information here https://www.eia.gov/opendata/qb.php.
+    key_file = pathlib.Path("../api_key.txt")
+    if key_file.exists():
+        if key_file.is_dir():
+            print(f"{key_file.as_posix()} is a directory, not a file.")
+            print("Refer to the README.md for how to setup this file.")
+            sys.exit()
+        else:
+            with open(key_file, "r") as key_file:
+                api_key = key_file.read().strip("\n\r")
+    else:
+        print(f"{key_file.as_posix()} does not exist.")
+        print("Refer to the README.md for how to setup this file.")
+        sys.exit()
 
     data = EIAgov(api_key, series_id)
     print("Getting data for: ", series_id)
