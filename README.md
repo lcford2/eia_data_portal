@@ -1,7 +1,7 @@
 # EIA API Data Portal
 
 This is a small project I started to help pull a lot of data from EIA. 
-EIA provides a ton of useful information for energy systems modeling and other uses, but it can be cumbersome to navigate through their website to get all of the information you want. 
+EIA provides a ton of useful information for energy systems modeling and other uses, and its web interface is really nice and useful. However, when you need a lot of data it can be cumbersome to navigate through their website to get all of the information you want. This project simply provides a easy method to automate that.
 
 The hallmarks of this project are:
 - Use of EIA's Data Access API
