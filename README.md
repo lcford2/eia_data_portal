@@ -13,9 +13,11 @@ The hallmarks of this project are:
 
 The first step after you clone this repository is to [request a API key from EIA](https://www.eia.gov/opendata/register.php). After you have your API key, create a file in this directory called `api_key.txt` that contains your API key in the first line and nothing else. 
 
-After that, you can browse the `series_records.json` file for a data series you may be interested in or you can look through [EIA's data catalog](https://www.eia.gov/opendata/qb.php) for a more comprehensive list of possible data series. Once you have a series id you want to download (e.g. `EBA.CAL-ALL.NG.SUN.HL`, which is the Net Generation (NG) from Solar (SUN) at an hourly resolution in local time (HL) for all of California (CAL-ALL)) you can download it by running the `get_eia_data.py` script (e.g. `$ python get_eia_data.py EBA.CAL-ALL.NG.SUN.HL`). 
+After that, you can browse the `series_records.json` file for a data series you may be interested in or you can look through [EIA's data catalog](https://www.eia.gov/opendata/qb.php) for a more comprehensive list of possible data series. Once you have a series id you want to download (e.g. `EBA.CAL-ALL.NG.SUN.HL`, which is the Net Generation (NG) from Solar (SUN) at an hourly resolution in local time (HL) for all of California (CAL-ALL)) you can download it by running the `get_eia_data.py` script in the `src` directory (e.g. `$ python get_eia_data.py EBA.CAL-ALL.NG.SUN.HL`). Note: you must first be in the `src` directory for the script to execute properly.
 
-Additionally, you can just run the `get_regional_gen.py` script (e.g `$ python get_regional_gen.py`) to pull generation information from various regions across the US, split up by generation type.
+Similarly, you can run the `get_regional_gen.py` script from the `src` directory (e.g `$ python get_regional_gen.py`) to pull generation information from various regions across the US, split up by generation type.
+
+Both scripts are setup to store the CSV output files in the `output` directory.
 
 ## Python Help
 This project is built using Python 3.8 and a few Python libraries. It's external dependencies are:
