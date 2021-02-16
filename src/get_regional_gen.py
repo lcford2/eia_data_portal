@@ -36,7 +36,7 @@ with open('./api_key.txt', 'r') as key_file:
     api_key = key_file.read().strip("\n\r")
 
 # where to store the data
-output_path = pathlib.Path("./regional_generation_two")
+output_path = pathlib.Path("../output/regional_generation")
 # some basic file system checks
 if output_path.exists():
     # if the path exists but it is not a directory

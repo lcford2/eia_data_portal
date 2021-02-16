@@ -2,9 +2,11 @@
 *
 
 # Making sure that the python scripts and json files are tracked
-!get_eia_data.py
-!get_regional_gen.py
+!src/
+!src/get_eia_data.py
+!src/get_regional_gen.py
+!output/
+!output/series_records.json
 !*.gitignore
-!series_records.json
 !README.md
 !environment.yml

@@ -22,7 +22,7 @@ class EIAgov(object):
         return "EIAgov({}, {})".format(self.token, self.series)
 
     def get_raw_data(self, ser=None):
-        """Querys EIA's API for a raw string with the data series ID.
+        """Querys EIA"s API for a raw string with the data series ID.
 
         Args:
             ser (str, optional): EIA Series ID, if None uses self.series. Defaults to None.
@@ -39,16 +39,16 @@ class EIAgov(object):
             response = urlopen(url)
             raw_byte = response.read()
             # ensure string is in correct encoding
-            raw_string = str(raw_byte, 'utf-8-sig')
+            raw_string = str(raw_byte, "utf-8-sig")
             # load data with json files
             jso = json.loads(raw_string)
             return jso
         except HTTPError as e:
-            print('HTTP error type.')
-            print('Error code:', e.code)
+            print("HTTP error type.")
+            print("Error code:", e.code)
         except URLError as e:
-            print('URL type error.')
-            print('Reason: ', e.reason)
+            print("URL type error.")
+            print("Reason: ", e.reason)
     
     def get_formatted_data(self, ser=None):
         """Wrapper to get data from EIA and format it in a pandas DataFrame.
@@ -76,7 +76,7 @@ class EIAgov(object):
             pandas.DataFrame: DataFrame with the results from EIA on the series provided
         """
         try:
-            date_series = data['series'][0]['data']
+            date_series = data["series"][0]["data"]
         except KeyError as e:
             print("Key Error for series_id ", self.series)
             # returning an empty data frame so users can use 
@@ -98,7 +98,7 @@ class EIAgov(object):
             json.dump(records, records_file)
 
         # grab the units
-        unit = data['series'][0]['units']
+        unit = data["series"][0]["units"]
         # intermediate data containers
         date = []
         data_series = []
@@ -114,8 +114,8 @@ class EIAgov(object):
             formats = ["%Y", "%Y%m", "%Y%m%dT%H%Z", "%Y%m%dT%H%z", None]
             for j, fmt in enumerate(formats):
                 if not fmt:
-                    print('Failed stripping datetime from string')
-                    print('String example: ', date_item)
+                    print("Failed stripping datetime from string")
+                    print("String example: ", date_item)
                     break
                 try:
                     if j == 3:
@@ -135,18 +135,18 @@ class EIAgov(object):
         
         # create a dataframe of the results
         df = pd.DataFrame(data=[date, data_series, units]).transpose()
-        df.columns = ['Date', 'Data', 'Units']
+        df.columns = ["Date", "Data", "Units"]
 
         return df
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import sys
     # parse args from command line
     try:
         series_id = sys.argv[1]
     except IndexError as e:
-        print('Index error accessing command line arguments.\n')
+        print("Index error accessing command line arguments.\n")
         print("Usage:")
         print("$ python get_eia_data.py <EIA API Series ID>\n")
         print("e.g. $ python get_eia_data.py ELEC.GEN.NG-US-99.M")
@@ -154,11 +154,11 @@ if __name__ == '__main__':
 
     # grab the api-key, this needs to be populated with your api_key
     # can find more information here https://www.eia.gov/opendata/qb.php.    
-    with open('./api_key.txt', 'r') as key_file:
+    with open("./api_key.txt", "r") as key_file:
         api_key = key_file.read().strip("\n\r")
 
     data = EIAgov(api_key, series_id)
-    print('Getting data for: ', series_id)
+    print("Getting data for: ", series_id)
     df = data.get_formatted_data()
-    print('Writing data to file: ', series_id + '.csv')
-    df.to_csv(series_id + '.csv')
+    print(f"Writing data to file: {series_id}.csv")
+    df.to_csv(f"../output/{series_id}.csv")
